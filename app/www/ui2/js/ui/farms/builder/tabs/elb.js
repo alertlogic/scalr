@@ -43,7 +43,7 @@ Scalr.regPage('Scalr.ui.farms.builder.tabs.elb', function (moduleParams) {
             // Oleg Z chnage
             // Show ELB configuration regardless of deployment options
             // Old code: if (this.vpc === false) {
-            // if (true) {
+            if (true) {
                 this.isLoading = true;
                 
                 if (settings['lb.use_elb'] == 1) {//load settings from old balancing tab

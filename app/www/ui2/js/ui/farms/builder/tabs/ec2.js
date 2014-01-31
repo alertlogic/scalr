@@ -17,6 +17,7 @@ Scalr.regPage('Scalr.ui.farms.builder.tabs.ec2', function (moduleParams) {
             'aws.aki_id': '',
             'aws.ari_id': '',
             'aws.cluster_pg': '',
+            'aws.iam_profile': '',
             'aws.ebs_optimized': undefined,
             'aws.enable_cw_monitoring': 0,
             'aws.instance_name_format': '',
@@ -202,6 +203,7 @@ Scalr.regPage('Scalr.ui.farms.builder.tabs.ec2', function (moduleParams) {
             this.down('[name="aws.aki_id"]').setValue(settings['aws.aki_id']);
             this.down('[name="aws.ari_id"]').setValue(settings['aws.ari_id']);
             this.down('[name="aws.cluster_pg"]').setValue(settings['aws.cluster_pg']);
+            this.down('[name="aws.iam_profile"]').setValue(settings['aws.iam_profile']);
             this.down('[name="aws.instance_name_format"]').setValue(settings['aws.instance_name_format']);
             
             var ebsOptimizedReadOnly = !record.isEc2EbsOptimizedFlagVisible();
@@ -212,7 +214,7 @@ Scalr.regPage('Scalr.ui.farms.builder.tabs.ec2', function (moduleParams) {
             this.down('[name="aws.enable_cw_monitoring"]').setDisabled(record.get('behaviors', true).match("cf_")).setValue(settings['aws.enable_cw_monitoring'] == 1);
             
             expand = !Ext.isEmpty(settings['aws.additional_security_groups']) || !Ext.isEmpty(settings['aws.aki_id']) ||
-                     !Ext.isEmpty(settings['aws.ari_id']) || !Ext.isEmpty(settings['aws.cluster_pg']) || 
+                     !Ext.isEmpty(settings['aws.ari_id']) || !Ext.isEmpty(settings['aws.cluster_pg']) || !Ext.isEmpty(settings['iam_profile']) || 
                      (!Ext.isEmpty(settings['aws.instance_name_format']) && settings['aws.instance_name_format'] != this.getDefaultValues()['aws.instance_name_format']) || 
                      settings['aws.enable_cw_monitoring'] == 1 ||
                      (!ebsOptimizedReadOnly && settings['aws.ebs_optimized'] == 1);
@@ -275,6 +277,7 @@ Scalr.regPage('Scalr.ui.farms.builder.tabs.ec2', function (moduleParams) {
 			settings['aws.aki_id'] = me.down('[name="aws.aki_id"]').getValue();
 			settings['aws.ari_id'] = me.down('[name="aws.ari_id"]').getValue();
 			settings['aws.cluster_pg'] = me.down('[name="aws.cluster_pg"]').getValue();
+			settings['aws.iam_profile'] = me.down('[name="aws.iam_profile"]').getValue();
             settings['aws.ebs_optimized'] = me.down('[name="aws.ebs_optimized"]').getValue() ? 1 : 0;
             settings['aws.enable_cw_monitoring'] = me.down('[name="aws.enable_cw_monitoring"]').getValue() ? 1 : 0; 
 			settings['aws.instance_name_format'] = me.down('[name="aws.instance_name_format"]').getValue();       
@@ -646,6 +649,10 @@ Scalr.regPage('Scalr.ui.farms.builder.tabs.ec2', function (moduleParams) {
 				fieldLabel: 'Cluster placement group',
 				name: 'aws.cluster_pg'
 			}, {
+                                xtype: 'textfield',
+                                fieldLabel: 'IAM Profile',
+                                name: 'aws.iam_profile'
+                        }, {
                 xtype: 'fieldcontainer',
                 fieldLabel: 'Instance name',
                 layout: 'hbox',

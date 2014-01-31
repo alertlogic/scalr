@@ -102,6 +102,7 @@ class DBFarmRole
     const SETTING_AWS_SECURITY_GROUPS_LIST  = 		'aws.security_groups.list';
     const SETTING_AWS_S3_BUCKET				= 		'aws.s3_bucket';
     const SETTING_AWS_CLUSTER_PG			= 		'aws.cluster_pg';
+    const SETTING_AWS_IAM_PROFILE                       =               'aws.iam_profile';
 
     const SETTING_AWS_INSTANCE_NAME_FORMAT	= 		'aws.instance_name_format';
 
