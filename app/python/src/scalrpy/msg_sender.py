@@ -164,6 +164,9 @@ class MsgSender(basedaemon.BaseDaemon):
             if server['remote_ip'] else server['local_ip'],
             }[CONFIG['instances_connection_policy']]
         port = server['server_properties']['scalarizr.ctrl_port']
+""" 
+Changed by OlegZ
+This code prevents nodes in vpc to be provisioned. Will take a look later
         if 'vpc_ip' in server:
             if server['remote_ip']:
                 ip = server['remote_ip']
@@ -174,6 +177,7 @@ class MsgSender(basedaemon.BaseDaemon):
                     'X-Receiver-Host':server['local_ip'],
                     'X-Receiver-Port':server['server_properties']['scalarizr.ctrl_port'],
                     }
+"""
         if message['message_format'] == 'json':
             headers['Content-type'] = 'application/json'
         if not ip:
