@@ -1010,6 +1010,11 @@ class Modules_Platforms_Ec2 extends Modules_Platforms_Aws implements IPlatformMo
 
         $runInstanceRequest->keyName = $keyName;
 
+        // Added by OlegZ 
+        // Apply IAM role to launched server
+        $iamProfileName = $DBServer->GetFarmRoleObject()->GetSetting(DBFarmRole::SETTING_AWS_IAM_PROFILE_NAME);
+        $runInstanceRequest->iamInstanceProfile = array('name' => $iamProfileName);
+
         try {
             $result = $aws->ec2->instance->run($runInstanceRequest);
         } catch (Exception $e) {
