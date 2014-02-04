@@ -1044,8 +1044,12 @@ class DBServer
                 else
                     $requestHost = "{$this->localIp}:{$ctrlPort}";
             }
-
-            if ($isVPC) {
+            
+            /*
+            Added by OlegZ. Need to take deeper to understand behavior when node is in VPC
+            For now just avoid this logic and use local ip address even if node is in VPC
+            */
+            if (false && $isVPC) {
                 $routerRole = $this->GetFarmObject()->GetFarmRoleByBehavior(ROLE_BEHAVIORS::VPC_ROUTER);
                 if ($routerRole) {
                     // No remote IP need to use proxy
@@ -1062,6 +1066,7 @@ class DBServer
                     }
                 }
             }
+            */
 
             //Prepare request
             $request->setUrl("http://{$requestHost}/control");
