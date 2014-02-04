@@ -1066,7 +1066,6 @@ class DBServer
                     }
                 }
             }
-            */
 
             //Prepare request
             $request->setUrl("http://{$requestHost}/control");
