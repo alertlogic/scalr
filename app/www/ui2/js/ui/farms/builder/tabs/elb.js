@@ -42,8 +42,7 @@ Scalr.regPage('Scalr.ui.farms.builder.tabs.elb', function (moduleParams) {
             
             // Oleg Z chnage
             // Show ELB configuration regardless of deployment options
-            // Old code: if (this.vpc === false) {
-            if (true) {
+            if (true || this.vpc === false) {
                 this.isLoading = true;
                 
                 if (settings['lb.use_elb'] == 1) {//load settings from old balancing tab
@@ -77,7 +76,7 @@ Scalr.regPage('Scalr.ui.farms.builder.tabs.elb', function (moduleParams) {
 		},
 
 		hideTab: function (record) {
-            if (this.vpc === false) {
+            if (true || this.vpc === false) {
                 var settings = record.get('settings');
 
                 settings['aws.elb.id'] = '';
