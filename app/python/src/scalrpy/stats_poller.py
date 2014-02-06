@@ -561,8 +561,10 @@ class StatsPoller(basedaemon.BaseDaemon):
                     task['proxy'] = None
 
                     task['os_type'] = server.os_type
-
-                    if server.farm_id in vpc_farms_id:
+                    """
+                    Added by OlegZ. Need to figure out how this vpc logic actual works
+                    """
+                    if False and server.farm_id in vpc_farms_id:
                         if server.farm_id in vpc_router_roles:
                             if server.remote_ip:
                                 ip = server.remote_ip

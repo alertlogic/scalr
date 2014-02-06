@@ -67,7 +67,7 @@ def _get_metrics_api(server):
         }[CONFIG['instances_connection_policy']]
     port = server['server_properties']['scalarizr.api_port']
     headers = None
-    if 'vpc_ip' in server:
+    if False and 'vpc_ip' in server:
         if server['remote_ip']:
             host = server['remote_ip']
         else:
