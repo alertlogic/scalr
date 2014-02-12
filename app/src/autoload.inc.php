@@ -59,6 +59,7 @@ function __autoload($class_name)
         'ScalrAPI_2_1_0' => SRCPATH . '/api/class.ScalrAPI_2_1_0.php',
         'ScalrAPI_2_2_0' => SRCPATH . '/api/class.ScalrAPI_2_2_0.php',
         'ScalrAPI_2_3_0' => SRCPATH . '/api/class.ScalrAPI_2_3_0.php',
+        'ScalrAPI_2_4_0' => SRCPATH . '/api/class.ScalrAPI_2_4_0.php',
         /****************************** Messaging  ***************************/
         'ScalrMessagingService' => SRCPATH . '/class.ScalrMessagingService.php',
         /******************* Environment objects ****************************/
