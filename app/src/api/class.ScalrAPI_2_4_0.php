@@ -30,7 +30,11 @@ class ScalrAPI_2_4_0 extends ScalrAPI_2_3_0
         if (empty($FarmName))
             throw new Exception("Farm name required");
                 
-        $dbFarm = DBFarm::create($FarmName, $this->user, $this->Environment->id);        
+        $dbFarm = DBFarm::create($FarmName, $this->user, $this->Environment->id);
+     
+        // Default launch older is simultaneous
+        $dbFarm->RolesLaunchOrder = ($RolesLaunchOrder == 'Sequential') ? 1 : 0;
+        $dbFarm->save();
         
         $response->Result = "OK";
         return $response;
