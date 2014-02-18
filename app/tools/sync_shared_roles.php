@@ -3,8 +3,13 @@
 
 	set_time_limit(0);
 
-	$dump = @file_get_contents("https://my.scalr.net/storage/shared-roles.php?scalr_id=".SCALR_ID);
-	$roles = @json_decode($dump, true);
+	$location = "https://my.scalr.net/storage/shared-roles.php?scalr_id=".SCALR_ID;
+	if (isset($argv[1])) {
+		$location = $argv[1];
+	} 
+	$dump = @file_get_contents($location);	
+	
+	$roles = @json_decode($dump, true);	
 	if (count($roles) < 1)
 	    die("Unable to import shared roles: {$dump}");
 
@@ -47,6 +52,8 @@
 				$db->Execute("DELETE FROM role_properties WHERE role_id =?", array($role['id']));
 				$db->Execute("DELETE FROM role_parameters WHERE role_id = ?", array($role['id']));
 				$db->Execute("DELETE FROM role_behaviors WHERE role_id =?", array($role['id']));
+				$db->Execute("DELETE FROM role_behaviors WHERE role_id =?", array($role['id']));
+				$db->Execute("DELETE FROM role_scripts WHERE role_id =?", array($role['id']));
 			}
 
 			foreach ($role['role_tags'] as $r1) {
@@ -81,7 +88,7 @@
     					`name` = ?,
     					`value` = ?
     				", array($r5['role_id'], $r5['name'], $r5['value']));
-                } catch (Exception $e) {}
+                } catch (Exception $e) { throw $e; }
 			}
 
 			foreach ($role['role_parameters'] as $r6) {
@@ -108,7 +115,7 @@
     				    `architecture` = ?,
     				    `agent_version` =?
     				", array($r7['role_id'], $r7['cloud_location'], $r7['image_id'], $r7['platform'], $r7['architecture'], $r7['agent_version']));
-				} catch (Exception $e) {}
+				} catch (Exception $e) { throw $e; }
 			}
 
 			foreach ($role['role_behaviors'] as $r8) {
@@ -117,7 +124,35 @@
     					`role_id` = ?,
     					`behavior` = ?
     				", array($r8['role_id'], $r8['behavior']));
-			    } catch (Exception $e) {}
+			    } catch (Exception $e) { throw $e; }
+			}
+			
+			foreach ($role['role_scripts'] as $r9) {
+			    try {
+    				$db->Execute('INSERT INTO role_scripts SET
+						`role_id` = ?,
+						`event_name` = ?,
+						`target` = ?,
+						`script_id` = ?,
+						`version` = ?,
+						`timeout` = ?,
+						`issync` = ?,
+						`params` = ?,
+						`order_index` = ?,
+						`hash` = ?
+					', array(
+						$r9['role_id'],
+						$r9['event_name'],
+						$r9['target'],
+						$r9['script_id'],
+						$r9['version'],
+						$r9['timeout'],
+						$r9['issync'],
+						serialize($r9['params']),
+						$r9['order_index'],
+						Scalr_Util_CryptoTool::sault(12)
+					));
+			    } catch (Exception $e) { throw $e; }
 			}
 	      }
 	  } catch (Exception $e) {
