@@ -146,6 +146,31 @@ class ScalrAPI_2_4_0 extends ScalrAPI_2_3_0
         return $response;
     }
     
+    public function FarmRoleSetScripts($FarmName, $FarmRoleName, $Scripts) {
+        $response = $this->CreateInitialResponse();
+        
+        $dbFarm = $this->getFarmByName($FarmName);
+        if($dbFarm === NULL)
+            throw new Exception("Requested farm doesn't exists");
+        
+        $dbFarmRole = NULL;
+        foreach($dbFarm->GetFarmRoles() as $tmpFarmRole) {
+            if($tmpFarmRole->Alias == $FarmRoleName) {
+                $dbFarmRole = $tmpFarmRole;
+                break;
+            }
+        }
+                
+        if ($dbFarmRole == NULL)
+            throw new Exception("Requested farm role doesn't exists");
+        
+        $dbFarmRole->SetScripts(json_decode($Scripts,true));
+        $dbFarmRole->save();
+        
+        $response->Result = "OK";
+        return $response;
+    }
+    
     public function FarmGetDetails($FarmID)
     {
         $response = parent::FarmGetDetails($FarmID);
